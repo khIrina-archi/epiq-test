@@ -1,4 +1,3 @@
-// src/features/featureFlags/featureFlagsSlice.ts
 import { createSlice } from '@reduxjs/toolkit'
 
 interface FeatureFlagsState {

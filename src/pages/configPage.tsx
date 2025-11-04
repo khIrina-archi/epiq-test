@@ -1,75 +1,81 @@
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { setRowsCount } from '../features/config/configSlice'
+import React, { useEffect } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { useEffect } from 'react'
+
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { setRowsCount } from '../slices/config'
 
 export function ConfigPage() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const rowsCount = useAppSelector((s) => s.config.rowsCount)
+  const flags = useAppSelector((s) => s.featureFlags)
+  const { configPageDisabled, sliderDisabled } = flags || { configPageDisabled: false, sliderDisabled: false }
 
-  const rowsCount = useAppSelector((state) => state.config.rowsCount)
-  const { configPageDisabled, sliderDisabled } = useAppSelector(
-    (state) => state.featureFlags
-  )
-
-  // Redirect if feature flag disables this page
   useEffect(() => {
     if (configPageDisabled) {
       navigate({ to: '/table' })
     }
   }, [configPageDisabled, navigate])
 
-  const handleChange = (value: number) => {
-    if (value < 1 || value > 10) return
+  const changeValue = (value: number) => {
+    if (value < 1) value = 1
+    if (value > 10) value = 10
     dispatch(setRowsCount(value))
   }
 
-  return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
-      <h1 className="text-2xl font-semibold mb-6">Table Configuration</h1>
+  const handleOnChange = (e: any) => changeValue(Number(e.target.value) || 1)
 
-      <div className="space-y-6">
-        {/* Slider input */}
-        <div>
-          <label className="block mb-2 text-gray-700 font-medium">
-            Slider Input (1–10)
-          </label>
-          <input
-            type="range"
-            min={1}
-            max={10}
-            value={rowsCount}
-            disabled={sliderDisabled}
-            onChange={(e) => handleChange(Number(e.target.value))}
-            className={`w-full ${
-              sliderDisabled
-                ? 'opacity-50 cursor-not-allowed'
-                : 'cursor-pointer accent-blue-600'
-            }`}
-          />
+  return (
+    <section>
+      <div className="mb-6">
+        <h1 className="text-4xl font-extrabold text-slate-800">Table Configuration</h1>
+        <p className="mt-2 text-slate-500 max-w-xl">
+          Configure how many rows should be shown in the data table. The value persists across reloads.
+        </p>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+        {/* Slider */}
+        <div className="mb-8">
+          <label className="block text-lg font-medium text-slate-700 mb-3">Slider Input (1–10)</label>
+
+          <div className="flex items-center gap-6">
+            <input
+              type="range"
+              min={1}
+              max={10}
+              value={rowsCount}
+              disabled={sliderDisabled}
+              onChange={handleOnChange}
+              className={`w-full h-2 rounded-lg appearance-none ${
+                sliderDisabled ? 'opacity-40 cursor-not-allowed' : ''
+              }`}
+              style={{
+                accentColor: '#2563eb', // blue-600
+              }}
+            />
+          </div>
         </div>
 
         {/* Number input */}
-        <div>
-          <label className="block mb-2 text-gray-700 font-medium">
-            Number Input (1–10)
-          </label>
+        <div className="mb-4">
+          <label className="block text-lg font-medium text-slate-700 mb-3">Number Input (1–10)</label>
           <input
             type="number"
             min={1}
             max={10}
             value={rowsCount}
-            onChange={(e) => handleChange(Number(e.target.value))}
-            className="w-24 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={handleOnChange}
+            className="w-24 px-3 py-2 rounded-lg border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-      </div>
 
-      <p className="mt-6 text-gray-500">
-        Current configuration value:{' '}
-        <span className="font-semibold text-gray-800">{rowsCount}</span>
-      </p>
-    </div>
+        <p className="mt-6 text-slate-600">
+          Current configuration value:{' '}
+          <span className="font-semibold text-slate-800">{rowsCount}</span>
+        </p>
+      </div>
+    </section>
   )
 }
 

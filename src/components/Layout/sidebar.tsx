@@ -1,18 +1,31 @@
+import React from 'react'
 import { Link } from '@tanstack/react-router'
 
-export const Sidebar = () => {
+import { SidebarFooter } from './SidebarFooter'
+
+const nav = [
+  { to: '/', label: 'Config' },
+  { to: '/table', label: 'Table' },
+  { to: '/admin', label: 'Admin' }
+]
+
+export function Sidebar() {
   return (
-    <aside className="w-48 bg-gray-800 text-white flex flex-col p-4 space-y-4">
-      {' '}
-      <Link to="/" className="[&.active]:font-bold hover:text-gray-300">
-        Config
-      </Link>{' '}
-      <Link to="/table" className="[&.active]:font-bold hover:text-gray-300">
-        Table
-      </Link>{' '}
-      <Link to="/admin" className="[&.active]:font-bold hover:text-gray-300">
-        Admin
-      </Link>{' '}
+    <aside className="sidebar">
+      <div className="sidebar-header">
+        <h1>Epiq AI</h1>
+        <p>AI Labs — Frontend Demo</p>
+      </div>
+
+      <nav className="sidebar-nav">
+        {nav.map((item) => (
+          <Link key={item.to} to={item.to} className="nav-link">
+            {item.label}
+          </Link>
+        ))}
+      </nav>
+
+      <SidebarFooter />
     </aside>
   )
 }

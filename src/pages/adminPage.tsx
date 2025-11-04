@@ -1,58 +1,110 @@
-// src/pages/AdminPage.tsx
+import React from 'react'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import {
   toggleConfigPage,
   toggleSlider
-} from '../features/featureFlags/featureFlagsSlice'
+} from '../slices/featureFlags/featureFlagsSlice'
+import { cn } from '../lib/utils'
 
 export function AdminPage() {
   const dispatch = useAppDispatch()
-  const { configPageDisabled, sliderDisabled } = useAppSelector(
-    (state) => state.featureFlags
+  const flags = useAppSelector(
+    (s) =>
+      s.featureFlags || { configPageDisabled: false, sliderDisabled: false }
   )
+  const { configPageDisabled, sliderDisabled } = flags
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
-      <h1 className="text-2xl font-semibold mb-6">
-        Admin Panel - Feature Flags
-      </h1>
+    <section className="section">
+      <div>
+        <h1>Admin Panel</h1>
+        <p>Toggle feature flags to enable/disable parts of the app.</p>
+      </div>
 
-      <div className="space-y-6">
+      <div className="card max-w-2xl space-y-4">
         {/* Toggle Config Page */}
-        <div className="flex items-center justify-between">
-          <span className="text-gray-700 font-medium">Disable Config Page</span>
-          <input
-            type="checkbox"
-            checked={configPageDisabled}
-            onChange={() => dispatch(toggleConfigPage())}
-            className="h-5 w-5 accent-blue-600"
-          />
+        <div className="flex items-center justify-between py-4 border-b border-gray-100">
+          <div>
+            <div className="font-medium text-slate-800">
+              <strong>Disable Config Page</strong>
+            </div>
+            <div className="text-sm text-slate-500">
+              Users will be redirected to the table page.
+            </div>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={!!configPageDisabled}
+              onChange={() => dispatch(toggleConfigPage())}
+              className="sr-only"
+            />
+            <span
+              className={cn(
+                'w-12 h-7 inline-block rounded-full transition-colors',
+                configPageDisabled ? 'bg-blue-600' : 'bg-gray-200'
+              )}
+            />
+            <span
+              className={cn(
+                'absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transform transition-transform',
+                configPageDisabled ? 'translate-x-5' : 'translate-x-0'
+              )}
+              aria-hidden
+            />
+          </label>
         </div>
 
         {/* Toggle Slider */}
-        <div className="flex items-center justify-between">
-          <span className="text-gray-700 font-medium">Disable Slider</span>
-          <input
-            type="checkbox"
-            checked={sliderDisabled}
-            onChange={() => dispatch(toggleSlider())}
-            className="h-5 w-5 accent-blue-600"
-          />
+        <div className="flex items-center justify-between py-4 mt-3">
+          <div>
+            <div className="font-medium text-slate-800">
+              <strong>Disable Slider</strong>
+            </div>
+            <div className="text-sm text-slate-500">
+              Slider on the config page will be disabled.
+            </div>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={!!sliderDisabled}
+              onChange={() => dispatch(toggleSlider())}
+              className="sr-only"
+            />
+            <span
+              className={cn(
+                'w-12 h-7 inline-block rounded-full transition-colors',
+                sliderDisabled ? 'bg-blue-600' : 'bg-gray-200'
+              )}
+            />
+            <span
+              className={cn(
+                'absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transform transition-transform',
+                sliderDisabled ? 'translate-x-5' : 'translate-x-0'
+              )}
+              aria-hidden
+            />
+          </label>
+        </div>
+
+        <div className="text-sm text-slate-600">
+          Current flags:
+          <div>
+            <strong>
+              <span className="font-medium text-slate-800">ConfigPage: </span>
+            </strong>
+            {configPageDisabled ? 'Disabled' : 'Enabled'}
+          </div>
+          <div>
+            <strong>
+              <span className="font-medium text-slate-800">Slider: </span>
+            </strong>
+            {sliderDisabled ? 'Disabled' : 'Enabled'}
+          </div>
         </div>
       </div>
-
-      <p className="mt-6 text-gray-500">
-        Feature flags state:
-        <br />
-        Config Page Disabled:{' '}
-        <span className="font-semibold">
-          {configPageDisabled ? 'Yes' : 'No'}
-        </span>
-        <br />
-        Slider Disabled:{' '}
-        <span className="font-semibold">{sliderDisabled ? 'Yes' : 'No'}</span>
-      </p>
-    </div>
+    </section>
   )
 }
 

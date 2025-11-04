@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type { AxiosRequestConfig, Method } from 'axios'
 
-/** Параметры для crudFetcher */
+// params for crudFetcher
 interface CrudOptions {
   method?: Method
   data?: any
@@ -17,7 +17,6 @@ export const crudFetcher = async <T = any>(
   return res.data
 }
 
-/** Тип функции для useMutation */
 type MutationFn<Payload, Result = any> = (payload?: Payload) => Promise<Result>
 
 // helper for useMutation

@@ -1,3 +1,3 @@
 export * from "./adminPage"
 export * from "./configPage"
-export * from "./dataTablePage"
+export * from "./DataTablePage/index"

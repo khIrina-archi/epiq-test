@@ -1,13 +1,17 @@
+import React from 'react'
 import { Outlet } from '@tanstack/react-router'
-import Sidebar from './sidebar'
+import Sidebar from './Sidebar'
 
-export const Layout = () => {
+export function Layout() {
   return (
-    <div className="flex h-screen">
+    <div className="layout-root">
       <Sidebar />
-      <main className="flex-1 overflow-auto bg-gray-50">
-        <Outlet />
-      </main>
+      <div className="layout-main">
+        <header className="topbar">Epiq AI Dashboard</header>
+        <main className="layout-content container">
+          <Outlet />
+        </main>
+      </div>
     </div>
   )
 }

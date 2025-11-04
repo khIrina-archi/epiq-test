@@ -2,12 +2,12 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
 
-import configReducer from '../features/config/configSlice'
-import featureFlagsReducer from '../features/featureFlags/featureFlagsSlice'
+import { configReducer, featureFlagsReducer, authReducer } from '../slices/index'
 
 const rootReducer = combineReducers({
   config: configReducer,
-  featureFlags: featureFlagsReducer
+  featureFlags: featureFlagsReducer,
+  auth: authReducer
 })
 
 const persistConfig = { key: 'root', storage }
