@@ -1,6 +1,5 @@
 import {
   createRouter,
-  RouterProvider,
   Route,
   RootRoute
 } from '@tanstack/react-router'

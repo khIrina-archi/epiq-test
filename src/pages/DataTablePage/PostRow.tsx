@@ -1,6 +1,3 @@
-// components/PostRow.tsx
-import React from 'react'
-
 import type { PostRowProps } from './types'
 
 export function PostRow({ post, onUpdate, onDelete }: PostRowProps) {
