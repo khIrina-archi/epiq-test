@@ -22,5 +22,5 @@ export function SkeletonRow() {
         <span className="inline-block h-8 w-16 bg-gray-200 dark:bg-gray-600 rounded-md"></span>
       </td>
     </tr>
-  );
+  )
 }
