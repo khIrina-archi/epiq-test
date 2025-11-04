@@ -4,7 +4,7 @@ import {
   RootRoute
 } from '@tanstack/react-router'
 
-import { Layout } from './components/layout/index'
+import { Layout } from './components'
 import { ConfigPage, DataTablePage, AdminPage } from './pages/index'
 
 const rootRoute = new RootRoute({
