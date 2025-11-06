@@ -32,3 +32,5 @@ Some parts of UI were generated with the help of AI to speed up iteration.
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Vercel: https://epiq-test-iryna-vercel-f4qedbq9f-irynahs-projects-65a54c73.vercel.app
